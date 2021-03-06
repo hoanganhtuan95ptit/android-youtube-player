@@ -25,14 +25,15 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.Playbac
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.PlayerUiController
 
-class LegacyYouTubePlayerView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0):
+class LegacyYouTubePlayerView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         SixteenByNineFrameLayout(context, attrs, defStyleAttr), LifecycleObserver {
 
-    constructor(context: Context): this(context, null, 0)
-    constructor(context: Context, attrs: AttributeSet? = null): this(context, attrs, 0)
+    constructor(context: Context) : this(context, null, 0)
+    constructor(context: Context, attrs: AttributeSet? = null) : this(context, attrs, 0)
 
     internal val youTubePlayer: WebViewYouTubePlayer = WebViewYouTubePlayer(context)
-    private val defaultPlayerUiController: DefaultPlayerUiController
+
+    val defaultPlayerUiController: DefaultPlayerUiController
 
     private val networkListener = NetworkListener()
     private val playbackResumer = PlaybackResumer()
@@ -60,7 +61,7 @@ class LegacyYouTubePlayerView(context: Context, attrs: AttributeSet? = null, def
         // stop playing if the user loads a video but then leaves the app before the video starts playing.
         youTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
             override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
-                if(state == PlayerConstants.PlayerState.PLAYING && !isEligibleForPlayback())
+                if (state == PlayerConstants.PlayerState.PLAYING && !isEligibleForPlayback())
                     youTubePlayer.pause()
             }
         })
@@ -92,17 +93,17 @@ class LegacyYouTubePlayerView(context: Context, attrs: AttributeSet? = null, def
      * @param playerOptions customizable options for the embedded video player, can be null.
      */
     fun initialize(youTubePlayerListener: YouTubePlayerListener, handleNetworkEvents: Boolean, playerOptions: IFramePlayerOptions?) {
-        if(isYouTubePlayerReady)
+        if (isYouTubePlayerReady)
             throw IllegalStateException("This YouTubePlayerView has already been initialized.")
 
         if (handleNetworkEvents)
             context.registerReceiver(networkListener, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
         initialize = {
-            youTubePlayer.initialize({it.addListener(youTubePlayerListener)}, playerOptions)
+            youTubePlayer.initialize({ it.addListener(youTubePlayerListener) }, playerOptions)
         }
 
-        if(!handleNetworkEvents)
+        if (!handleNetworkEvents)
             initialize()
     }
 
@@ -143,7 +144,7 @@ class LegacyYouTubePlayerView(context: Context, attrs: AttributeSet? = null, def
      * This function is called only once.
      */
     fun getYouTubePlayerWhenReady(youTubePlayerCallback: YouTubePlayerCallback) {
-        if(isYouTubePlayerReady)
+        if (isYouTubePlayerReady)
             youTubePlayerCallback.onYouTubePlayer(youTubePlayer)
         else
             youTubePlayerCallbacks.add(youTubePlayerCallback)
