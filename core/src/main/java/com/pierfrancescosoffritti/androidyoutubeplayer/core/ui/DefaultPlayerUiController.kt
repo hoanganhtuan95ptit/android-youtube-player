@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import com.pierfrancescosoffritti.androidyoutubeplayer.R
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.OnUserPlayPauseListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.OnUserSeekListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.LegacyYouTubePlayerView
@@ -22,7 +24,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.utils.FadeViewHel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBar
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.views.YouTubePlayerSeekBarListener
 
-internal class DefaultPlayerUiController(private val youTubePlayerView: LegacyYouTubePlayerView, private val youTubePlayer: YouTubePlayer) : PlayerUiController, YouTubePlayerListener, YouTubePlayerFullScreenListener, YouTubePlayerSeekBarListener {
+class DefaultPlayerUiController(private val youTubePlayerView: LegacyYouTubePlayerView, private val youTubePlayer: YouTubePlayer) : PlayerUiController, YouTubePlayerListener, YouTubePlayerFullScreenListener, YouTubePlayerSeekBarListener {
 
     private var youTubePlayerMenu: YouTubePlayerMenu
 
@@ -51,6 +53,10 @@ internal class DefaultPlayerUiController(private val youTubePlayerView: LegacyYo
 
     private var onFullScreenButtonListener: View.OnClickListener
     private var onMenuButtonClickListener: View.OnClickListener
+
+    private var onUserSeekListener: OnUserSeekListener? = null
+
+    private var onUserPlayPauseListener: OnUserPlayPauseListener? = null
 
     private val fadeControlsContainer: FadeViewHelper
 
@@ -100,6 +106,14 @@ internal class DefaultPlayerUiController(private val youTubePlayerView: LegacyYo
         playPauseButton.setOnClickListener { onPlayButtonPressed() }
         fullScreenButton.setOnClickListener { onFullScreenButtonListener.onClick(fullScreenButton) }
         menuButton.setOnClickListener { onMenuButtonClickListener.onClick(menuButton) }
+    }
+
+    fun setOnUserSeekListener(listener: OnUserSeekListener) {
+        this.onUserSeekListener = listener
+    }
+
+    fun setOnUserPlayPauseListener(listener: OnUserPlayPauseListener) {
+        this.onUserPlayPauseListener = listener
     }
 
     override fun showVideoTitle(show: Boolean): PlayerUiController {
@@ -215,33 +229,42 @@ internal class DefaultPlayerUiController(private val youTubePlayerView: LegacyYo
     }
 
     private fun onPlayButtonPressed() {
-        if (isPlaying)
+        val play = !isPlaying
+
+        if (isPlaying) {
             youTubePlayer.pause()
-        else
+        } else {
             youTubePlayer.play()
+        }
+
+        onUserPlayPauseListener?.onPlayPause(play)
     }
 
     override fun onYouTubePlayerEnterFullScreen() =
-        fullScreenButton.setImageResource(R.drawable.ayp_ic_fullscreen_exit_24dp)
+            fullScreenButton.setImageResource(R.drawable.ayp_ic_fullscreen_exit_24dp)
 
     override fun onYouTubePlayerExitFullScreen() =
-        fullScreenButton.setImageResource(R.drawable.ayp_ic_fullscreen_24dp)
+            fullScreenButton.setImageResource(R.drawable.ayp_ic_fullscreen_24dp)
 
     private fun updateState(state: PlayerConstants.PlayerState) {
         when (state) {
             PlayerConstants.PlayerState.ENDED -> isPlaying = false
             PlayerConstants.PlayerState.PAUSED -> isPlaying = false
             PlayerConstants.PlayerState.PLAYING -> isPlaying = true
-            else -> { }
+            else -> {
+            }
         }
 
         updatePlayPauseButtonIcon(!isPlaying)
     }
 
     private fun updatePlayPauseButtonIcon(playing: Boolean) =
-        playPauseButton.setImageResource(if (playing) R.drawable.ayp_ic_pause_36dp else R.drawable.ayp_ic_play_36dp)
+            playPauseButton.setImageResource(if (playing) R.drawable.ayp_ic_pause_36dp else R.drawable.ayp_ic_play_36dp)
 
-    override fun seekTo(time: Float) = youTubePlayer.seekTo(time)
+    override fun seekTo(time: Float) {
+        youTubePlayer.seekTo(time)
+        onUserSeekListener?.onSeek(time)
+    }
 
     // YouTubePlayer callbacks
 
