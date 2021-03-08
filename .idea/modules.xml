@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-youtube-player.iml" filepath="$PROJECT_DIR$/.idea/modules/android-youtube-player.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chromecast-sender/android-youtube-player.chromecast-sender.iml" filepath="$PROJECT_DIR$/.idea/modules/chromecast-sender/android-youtube-player.chromecast-sender.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chromecast-sender-sample-app/android-youtube-player.chromecast-sender-sample-app.iml" filepath="$PROJECT_DIR$/.idea/modules/chromecast-sender-sample-app/android-youtube-player.chromecast-sender-sample-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/android-youtube-player.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/android-youtube-player.core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core-sample-app/android-youtube-player.core-sample-app.iml" filepath="$PROJECT_DIR$/.idea/modules/core-sample-app/android-youtube-player.core-sample-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Test6.iml" filepath="$PROJECT_DIR$/.idea/modules/Test6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chromecast-sender/Test6.chromecast-sender.iml" filepath="$PROJECT_DIR$/.idea/modules/chromecast-sender/Test6.chromecast-sender.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chromecast-sender-sample-app/Test6.chromecast-sender-sample-app.iml" filepath="$PROJECT_DIR$/.idea/modules/chromecast-sender-sample-app/Test6.chromecast-sender-sample-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/Test6.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/Test6.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core-sample-app/Test6.core-sample-app.iml" filepath="$PROJECT_DIR$/.idea/modules/core-sample-app/Test6.core-sample-app.iml" />
     </modules>
   </component>
 </project>

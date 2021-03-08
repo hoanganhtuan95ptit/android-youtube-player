@@ -23,6 +23,8 @@ interface YouTubePlayer {
     fun play()
     fun pause()
 
+    fun setPlaybackRate(suggestedRate: Float)
+
     fun mute()
     fun unMute()
 

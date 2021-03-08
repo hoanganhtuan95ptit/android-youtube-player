@@ -56,6 +56,10 @@ internal class WebViewYouTubePlayer constructor(context: Context, attrs: Attribu
         mainThreadHandler.post { loadUrl("javascript:pauseVideo()") }
     }
 
+    override fun setPlaybackRate(suggestedRate: Float) {
+        mainThreadHandler.post { loadUrl("javascript:setPlaybackRate($suggestedRate)") }
+    }
+
     override fun mute() {
         mainThreadHandler.post { loadUrl("javascript:mute()") }
     }
